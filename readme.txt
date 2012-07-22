@@ -1,4 +1,4 @@
-﻿=== Plugin Name ===
+﻿=== Mint Sliders ===
 Contributors: swain.tara
 Donate link: http://taraprasad.com/wordpress/mintsliders/
 Tags: image slider, wordpress slider, slider, skitter slider, images slider, slider transaction effects
@@ -14,6 +14,7 @@ A wordpress image slider plugin.
 
 This is a wordpress images slider plugin. nextgen-gallery plugin is used to manage and upload images. skitter transaction effects are used in frontend.
 nextgen-gallery is a required plugin. Please download and install from http://wordpress.org/extend/plugins/nextgen-gallery/. And do not forget to activate it after installation.
+[Demo](http://taraprasad.com/wordpress/mintsliders/ "Demo")
 
 == Credits ==
 
@@ -53,3 +54,10 @@ Still got questions? If you need technical help, email me at swain.tara@gmail.co
 2. A vidw of backend listing view of sliders
 3. A vidw of backend individual slider settings
 4. A vidw of backend individual image transaction effects
+
+== Changelog ==
+
+= 1.0 =
+* Demo Link Added
+
+== Upgrade Notice ==
