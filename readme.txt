@@ -57,11 +57,11 @@ Still got questions? If you need technical help, email me at swain.tara@gmail.co
 
 == Changelog ==
 
-= V1.0.1 - 22.07.2012 =
-* Demo Link Added
-
 = V1.1.0 - 02.08.2012 =
 * Left right navigation disable option added
+
+= V1.0.1 - 22.07.2012 =
+* Demo Link Added
 
 == Upgrade Notice ==
 * Upgrade recommended because new option added
