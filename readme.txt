@@ -51,13 +51,17 @@ Still got questions? If you need technical help, email me at swain.tara@gmail.co
 == Screenshots ==
 
 1. A front view of the slider on the posts
-2. A vidw of backend listing view of sliders
-3. A vidw of backend individual slider settings
-4. A vidw of backend individual image transaction effects
+2. A view of backend listing view of sliders
+3. A view of backend individual slider settings
+4. A view of backend individual image transaction effects
 
 == Changelog ==
 
-= 1.0 =
+= V1.0.1 - 22.07.2012 =
 * Demo Link Added
 
+= V1.1.0 - 02.08.2012 =
+* Left right navigation disable option added
+
 == Upgrade Notice ==
+* Upgrade recommended because new option added

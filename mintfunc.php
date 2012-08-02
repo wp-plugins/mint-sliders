@@ -173,6 +173,12 @@ function com_save_metaa($postId) {
 			update_post_meta($postId, 'mis_stopover', '');
 		}
 		
+		if(isset($_POST['mis_lrnav'])) {
+			update_post_meta($postId, 'mis_lrnav', $_POST['mis_lrnav']);
+		}else {
+			update_post_meta($postId, 'mis_lrnav', '');
+		}
+		
 		if(isset($_POST['mis_preview'])) {
 			update_post_meta($postId, 'mis_preview', $_POST['mis_preview']);
 		}else {

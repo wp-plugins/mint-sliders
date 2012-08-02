@@ -42,6 +42,7 @@ if(isset($_REQUEST['post']) && is_numeric($_REQUEST['post'])) {
 	$mis_fullscreen = get_post_meta($post->ID, 'mis_fullscreen', true);
 	$mis_random = get_post_meta($post->ID, 'mis_random', true);
 	$mis_stopover = get_post_meta($post->ID, 'mis_stopover', true);
+	$mis_lrnav = get_post_meta($post->ID, 'mis_lrnav', true);
 	
 	$mis_preview = get_post_meta($post->ID, 'mis_preview', true);
 	$mis_progressbar = get_post_meta($post->ID, 'mis_progressbar', true);
@@ -65,6 +66,7 @@ if(isset($_REQUEST['post']) && is_numeric($_REQUEST['post'])) {
 	$mis_fullscreen = '';
 	$mis_random = '';
 	$mis_stopover = '';
+	$mis_lrnav = '';
 	
 	$mis_preview = '';
 	$mis_progressbar = '';
@@ -214,6 +216,10 @@ jQuery(document).ready(function() {
 <input type="checkbox" id="mis_stopover" name="mis_stopover" value="1"<?php echo ($mis_stopover=='1') ? ' checked="checked"' : ''; ?> />
 </div>
 <label style="float: left; padding: 6px;" for="mis_stopover">Stop Over</label>
+<div style="float: left;padding: 6px;">
+<input type="checkbox" id="mis_lrnav" name="mis_lrnav" value="1"<?php echo ($mis_lrnav=='1') ? ' checked="checked"' : ''; ?> />
+</div>
+<label style="float: left; padding: 6px;" for="mis_lrnav">Left Right Navigation</label>
 </div>
 <div class="clear"></div>
 
@@ -233,11 +239,11 @@ jQuery(document).ready(function() {
 <label style="float: left; padding: 6px;" for="mis_label">Show Labels</label>
 <label style="float: left; padding: 6px;" for="mis_interval">Interval</label>
 <div style="float: left;padding: 6px;">
-<input type="text" id="mis_interval" name="mis_interval" value="<?php echo ($mis_interval!='') ? $mis_interval : '2500'; ?>" />
+<input type="text" style="width:50px;" id="mis_interval" name="mis_interval" value="<?php echo ($mis_interval!='') ? $mis_interval : '2500'; ?>" />
 </div>
 <label style="float: left; padding: 6px;" for="mis_velocity">Velocity</label>
 <div style="float: left;padding: 6px;">
-<input type="text" id="mis_velocity" name="mis_velocity" value="<?php echo ($mis_velocity!='') ? $mis_velocity : '0.75'; ?>" />
+<input type="text" style="width:50px;" id="mis_velocity" name="mis_velocity" value="<?php echo ($mis_velocity!='') ? $mis_velocity : '0.75'; ?>" />
 </div>
 </div>
 <div class="clear"></div>

@@ -19,6 +19,7 @@ $mis_navkey = get_post_meta($post->ID, 'mis_navkey', true);
 $mis_fullscreen = get_post_meta($post->ID, 'mis_fullscreen', true);
 $mis_random = get_post_meta($post->ID, 'mis_random', true);
 $mis_stopover = get_post_meta($post->ID, 'mis_stopover', true);
+$mis_lrnav = get_post_meta($post->ID, 'mis_lrnav', true);
 
 $mis_easing = get_post_meta($post->ID, 'mis_easing', true);
 $mis_align = get_post_meta($post->ID, 'mis_align', true);
@@ -37,7 +38,7 @@ $mis_nggallery = $nggdb->get_gallery($ngid);
 jQuery(document).ready(function() {
 	var options = {};
 	<?php
-	echo "options['numbers'] = false;";
+	echo "options['numbers'] = false;options['navigation'] = false;";
 	echo ($mis_autoplay=='1') ? "options['auto_play'] = true;" : "options['auto_play'] = false;";
 	echo ($mis_navkey=='1') ? "options['enable_navigation_keys'] = true;" : "options['enable_navigation_keys'] = false;";
 	echo ($mis_fullscreen=='1') ? "options['fullscreen'] = true;" : "options['fullscreen'] = false;";
@@ -54,8 +55,9 @@ jQuery(document).ready(function() {
 	echo ($mis_interval!='') ? "options['interval'] = '$mis_interval';" : "";
 	echo ($mis_velocity=='1') ? "options['velocity'] = '$mis_velocity';" : "";
 	
+	echo ($mis_lrnav=='1') ? "options['navigation'] = true;" : "options['navigation'] = false;";
+	
 	if($mis_nav!='none' and $mis_nav!='') {
-		echo "options['navigation'] = true;";
 		if($mis_nav=='dots') {
 			echo "options['dots'] = true;";
 		}else if($mis_nav=='numbers') {
