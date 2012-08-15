@@ -31,7 +31,7 @@ $mis_velocity = get_post_meta($post->ID, 'mis_velocity', true);
 	
 $mis_gallery_info = get_post_meta($post->ID, 'misgallerydata', true);
 $mis_array = unserialize($mis_gallery_info);
-
+//echo '<pre>';print_r($mis_array);echo '</pre>';
 $mis_nggallery = $nggdb->get_gallery($ngid);
 ?>
 <script>
@@ -74,16 +74,27 @@ jQuery(document).ready(function() {
 });
 </script>
 <div class="box_skitter" style="height: <?php echo $mis_galh; ?>; width: <?php echo $mis_galw; ?>" id="mintimgslider<?php echo $post->ID; ?>">
+
 <ul>
 <?php
 $k=0;
 foreach($mis_nggallery as $mis_galid=>$row) {
 	if($mis_array["mis_image_disabled$mis_galid"]=='1') continue;
-	
 ?>
-<li><a href="<?php echo ($mis_array["mis_image_link$mis_galid"]!='') ? $mis_array["mis_image_link$mis_galid"] : '#'; ?>"<?php echo (isset($mis_array["mis_image_link_newwin$mis_galid"]) and $mis_array["mis_image_link_newwin$mis_galid"]!='') ? ' target="_blank"' : ''; ?>>
+<li>
+<?php
+if($mis_array["mis_image_link$mis_galid"]!='') {
+?>
+<a href="<?php echo ($mis_array["mis_image_link$mis_galid"]!='') ? $mis_array["mis_image_link$mis_galid"] : '#'; ?>"<?php echo (isset($mis_array["mis_link_target$mis_galid"]) and $mis_array["mis_link_target$mis_galid"]!='' and $mis_array["mis_image_link$mis_galid"]!='') ? ' target="'.$mis_array["mis_link_target$mis_galid"].'"' : ''; ?>>
 <img src="<?php echo $row->imageURL; ?>" class="<?php echo ($mis_array["mis_image_trans$mis_galid"]!='' and $mis_array["mis_image_trans$mis_galid"]!='none') ? $mis_array["mis_image_trans$mis_galid"] : $mis_global_trans; ?>" />
 </a>
+<?php
+}else {
+?>
+<img src="<?php echo $row->imageURL; ?>" class="<?php echo ($mis_array["mis_image_trans$mis_galid"]!='' and $mis_array["mis_image_trans$mis_galid"]!='none') ? $mis_array["mis_image_trans$mis_galid"] : $mis_global_trans; ?>" />
+<?php
+}
+?>
 <div class="label_text"><p><?php echo $row->description; ?></p></div>
 </li>
 <?php

@@ -3,7 +3,7 @@
 Plugin Name: Mint Sliders
 Plugin URI: http://taraprasad.com/wordpress/mintsliders/
 Description: A Image Slider Plugin for Wordpress.
-Version: 1.1.0
+Version: 1.2.0
 Author: Taraprasad Swain
 Author URI: http://www.taraprasad.com
 
@@ -24,8 +24,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 include('mint-config.php');
-
-add_action( 'tgmpa_register', 'mint_register_required_plugins' );
 
 add_action('init', 'create_post_type');
 
@@ -75,7 +73,7 @@ function mint_scripts_method() {
 	wp_enqueue_script('highlight',plugins_url('/js/highlight.js', __FILE__));
 	wp_enqueue_script('animate-colors',plugins_url('/js/jquery.animate-colors-min.js', __FILE__));
 	wp_enqueue_script('easing',plugins_url('/js/jquery.easing.1.3.js', __FILE__));
-	wp_enqueue_script('skitter',plugins_url('/js/jquery.skitter.min.js', __FILE__));
+	wp_enqueue_script('skitter',plugins_url('/js/jquery.skitter.js', __FILE__));
 	
 	//wp_enqueue_style('styles', plugins_url('/css/styles.css', __FILE__));
 	wp_enqueue_style('highlight', plugins_url('/css/highlight.css', __FILE__));

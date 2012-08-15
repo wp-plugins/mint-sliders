@@ -37,6 +37,14 @@ foreach($mis_nggallery as $mis_galid=>$row) {
 </select><br /><br />
 <label for="mis_image_link<?php echo $k; ?>">Link</label>: 
 <input type="text" id="mis_image_link<?php echo $k; ?>" name="misgallerydata[mis_image_link<?php echo $mis_galid; ?>]" value="<?php echo isset($mis_array["mis_image_link$mis_galid"]) ? $mis_array["mis_image_link$mis_galid"] : ''; ?>"/>
+<select id="mis_link_target<?php echo $mis_galid; ?>" name="misgallerydata[mis_link_target<?php echo $mis_galid; ?>]">
+<option value="">Target</option>
+<option<?php echo (isset($mis_array["mis_link_target$mis_galid"]) and $mis_array["mis_link_target$mis_galid"]=="_blank") ? ' selected="selected"' : ''; ?> value="_blank">_blank</option>
+<option<?php echo (isset($mis_array["mis_link_target$mis_galid"]) and $mis_array["mis_link_target$mis_galid"]=="_new") ? ' selected="selected"' : ''; ?> value="_new">_new</option>
+<option<?php echo (isset($mis_array["mis_link_target$mis_galid"]) and $mis_array["mis_link_target$mis_galid"]=="_parent") ? ' selected="selected"' : ''; ?> value="_parent">_parent</option>
+<option<?php echo (isset($mis_array["mis_link_target$mis_galid"]) and $mis_array["mis_link_target$mis_galid"]=="_self") ? ' selected="selected"' : ''; ?> value="_self">_self</option>
+<option<?php echo (isset($mis_array["mis_link_target$mis_galid"]) and $mis_array["mis_link_target$mis_galid"]=="_top") ? ' selected="selected"' : ''; ?> value="_top">_top</option>
+</select>
 <input type="checkbox"<?php echo (isset($mis_array["mis_image_disabled$mis_galid"]) and $mis_array["mis_image_disabled$mis_galid"]=='1') ? ' checked="checked"' : ''; ?> id="mis_image_disabled<?php echo $k; ?>" name="misgallerydata[mis_image_disabled<?php echo $mis_galid; ?>]" value="1" />
 <label for="mis_image_disabled<?php echo $k; ?>">Disable</label>
 </div>
