@@ -8,11 +8,11 @@ Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-A wordpress image slider plugin.
+A wordpress responsive image slider plugin.
 
 == Description ==
 
-This is a wordpress images slider plugin. nextgen-gallery plugin is used to manage and upload images. skitter transaction effects are used in frontend.
+This is a wordpress responsive images slider plugin. nextgen-gallery plugin is used to manage and upload images. skitter transaction effects are used in frontend.
 nextgen-gallery is a required plugin. Please download and install from http://wordpress.org/extend/plugins/nextgen-gallery/. And do not forget to activate it after installation.
 [Demo](http://taraprasad.com/wordpress/mintsliders/ "Demo")
 
