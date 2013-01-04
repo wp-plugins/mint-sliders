@@ -39,8 +39,6 @@
 		link_atual: 			null,
 		label_atual: 			null,
 		target_atual: 			'_self',
-		width_skitter: 			null,
-		height_skitter: 		null,
 		image_i: 				1,
 		is_animating:  			false,
 		is_hover_box_skitter: 	false,
@@ -72,14 +70,15 @@
 		progressbar_css:		{},
 		is_paused:				false,
 		is_blur:				false,
-		is_paused_time:			false,
+		is_paused_time:			true,
 		timeStart:				0,
 		elapsedTime:			0,
-		stop_over:				true,
+		stop_over:				false,
 		enable_navigation_keys:	false,
 		with_animations:		[],
 		mouseOverButton: 		function() { $(this).stop().animate({opacity:0.5}, 200); }, 
 		mouseOutButton: 		function() { $(this).stop().animate({opacity:1}, 200); }, 
+		
 		auto_play: 				true, 
 		structure: 	 			  '<a href="#" class="prev_button">prev</a>'
 								+ '<a href="#" class="next_button">next</a>'
@@ -97,6 +96,12 @@
 		this.box_skitter = $(obj);
 		this.timer = null;
 		this.settings = $.extend({}, defaults, options || {});
+		this.settings.width_skitter = function() {
+			return $(obj).width();
+		};
+		this.settings.height_skitter = function() {
+			return $(obj).height();
+		};
 		this.number_skitter = number;
 		this.setup();
 	};
@@ -127,14 +132,13 @@
 				$('body').css({'overflown':'hidden'});
 			}
 			
-			this.settings.width_skitter 	= parseFloat(this.box_skitter.css('width'));
-			this.settings.height_skitter 	= parseFloat(this.box_skitter.css('height'));
-			
-			if (!this.settings.width_skitter || !this.settings.height_skitter) {
-				console.warn('Width or height size is null! - Skitter Slideshow');
-				return false;
-			}
-			
+			//this.settings.width_skitter 	= parseFloat(this.box_skitter.css('width'));
+			//this.settings.height_skitter 	= parseFloat(this.box_skitter.css('height'));
+			//if (!this.settings.width_skitter || !this.settings.height_skitter) {
+			//	console.warn('Width or height size is null! - Skitter Slideshow');
+				//return false;
+			//}
+//			alert(this.settings.height_skitter());
 			// Structure html
 			this.box_skitter.append(this.settings.structure);
 			
@@ -149,10 +153,10 @@
 			this.box_skitter.find('.prev_button').hide();
 			this.box_skitter.find('.next_button').hide();
 						
-			this.box_skitter.find('.container_skitter').width(this.settings.width_skitter);
-			this.box_skitter.find('.container_skitter').height(this.settings.height_skitter);
+			this.box_skitter.find('.container_skitter').width('100%');
+			this.box_skitter.find('.container_skitter').height('auto');
 			
-			var width_label = this.settings.width_label ? this.settings.width_label : this.settings.width_skitter;
+			var width_label = this.settings.width_label ? this.settings.width_label : this.settings.width_skitter();
 			this.box_skitter.find('.label_skitter').width(width_label);
 			
 			var initial_select_class = ' image_number_select', u = 0;
@@ -163,7 +167,7 @@
 				self.settings.images_links.push([src, link, animation_type, label, target]);
 				if (self.settings.thumbs) {
 					var dimension_thumb = '';
-					if (self.settings.width_skitter > self.settings.height_skitter) {
+					if (self.settings.width_skitter() > self.settings.height_skitter()) {
 						dimension_thumb = 'height="100"';
 					} 
 					else {
@@ -238,13 +242,13 @@
 				var copy_info_slide = self.box_skitter.find('.info_slide').clone();
 				self.box_skitter.find('.info_slide').remove();
 				self.box_skitter.find('.container_thumbs')
-					.width(self.settings.width_skitter)
+					.width(self.settings.width_skitter())
 					.append(copy_info_slide);
 				
 				// Scrolling with mouse movement
 				var width_image = 0, 
-					width_skitter = this.settings.width_skitter,
-					height_skitter = this.settings.height_skitter, 
+					width_skitter = this.settings.width_skitter(),
+					height_skitter = this.settings.height_skitter(), 
 					w_info_slide_thumb = 0,
 					info_slide_thumb = self.box_skitter.find('.info_slide_thumb'),
 					x_value = 0,
@@ -256,11 +260,11 @@
 				
 				info_slide_thumb.width(width_image+'px');
 				w_info_slide_thumb = info_slide_thumb.width();
-				width_value = this.settings.width_skitter;
+				width_value = this.settings.width_skitter();
 				
 				width_value = width_skitter - 100;
 				
-				if (width_info_slide > self.settings.width_skitter) {
+				if (width_info_slide > self.settings.width_skitter()) {
 					self.box_skitter.mousemove(function(e){
 						x_value = self.box_skitter.offset().left + 90;
 						
@@ -282,14 +286,14 @@
 				
 				self.box_skitter.find('.scroll_thumbs').css({'left':10});
 				
-				if (width_info_slide < self.settings.width_skitter) {
+				if (width_info_slide < self.settings.width_skitter()) {
 					self.box_skitter.find('.info_slide').width('auto');
 					self.box_skitter.find('.box_scroll_thumbs').hide();
 					
 					var class_info = '.info_slide';
 					switch (self.settings.numbers_align) {
 						case 'center' : 
-							var _vleft = (self.settings.width_skitter - self.box_skitter.find(class_info).width()) / 2;
+							var _vleft = (self.settings.width_skitter() - self.box_skitter.find(class_info).width()) / 2;
 							self.box_skitter.find(class_info).css({'left':_vleft});
 							break;
 							
@@ -315,7 +319,7 @@
 				
 				switch (self.settings.numbers_align) {
 					case 'center' : 
-						var _vleft = (self.settings.width_skitter - self.box_skitter.find(class_info).width()) / 2;
+						var _vleft = (self.settings.width_skitter() - self.box_skitter.find(class_info).width()) / 2;
 						self.box_skitter.find(class_info).css({'left':_vleft});
 						break;
 						
@@ -562,9 +566,6 @@
 				this.settings.image_i = Math.floor(imageNumber);
 				
 				this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
-				if(this.settings.link_atual!='#' && this.settings.target_atual!='') {
-					this.box_skitter.find('.image a').attr({'target': this.settings.target_atual});
-				}
 				this.box_skitter.find('.image_main').attr({'src': this.settings.image_atual});
 				this.box_skitter.find('.box_clone').remove();
 				
@@ -779,15 +780,15 @@
 			
 			this.setActualLevel();
 			
-			var division_w 	= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h 	= Math.ceil(this.settings.height_skitter / (this.settings.height_skitter / 3));
+			var division_w 	= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h 	= Math.ceil(this.settings.height_skitter() / (this.settings.height_skitter() / 3));
 			var total		= division_w * division_h;
 			
-			var width_box 	= Math.ceil(this.settings.width_skitter / division_w);
-			var height_box 	= Math.ceil(this.settings.height_skitter / division_h);
+			var width_box 	= Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box 	= Math.ceil(this.settings.height_skitter() / division_h);
 			
-			var init_top 	= this.settings.height_skitter + 200;
-			var init_left 	= this.settings.height_skitter + 200;
+			var init_top 	= this.settings.height_skitter() + 200;
+			var init_left 	= this.settings.height_skitter() + 200;
 			
 			var col_t = 0;
 			var col = 0;
@@ -798,7 +799,7 @@
 				init_left 			= (i % 2 == 0) ? init_left : -init_left;
 
 				var _vtop 			= init_top + (height_box * col_t) + (col_t * 150);
-				var _vleft 			= -self.settings.width_skitter;
+				var _vleft 			= -self.settings.width_skitter();
 				//var _vleft 			= (init_left + (width_box * col)) + (col * 50);
 				
 				var _vtop_image 	= -(height_box * col_t);
@@ -818,8 +819,8 @@
 				} 
 				else {
 					time_animate = 500;
-					//box_clone.css({left:(this.settings.width_skitter / 2), top:this.settings.height_skitter + 50, width:width_box, height:height_box});
-					box_clone.css({left:(this.settings.width_skitter) + (width_box * i), top:this.settings.height_skitter + (height_box * i), width:width_box, height:height_box});
+					//box_clone.css({left:(this.settings.width_skitter() / 2), top:this.settings.height_skitter() + 50, width:width_box, height:height_box});
+					box_clone.css({left:(this.settings.width_skitter()) + (width_box * i), top:this.settings.height_skitter() + (height_box * i), width:width_box, height:height_box});
 				}
 				
 				//box_clone.find('img').css({left:_vleft_image, top:_vtop_image});
@@ -839,6 +840,8 @@
 					box_clone.find('img').delay(delay_time+(time_animate/2)).fadeTo(100, 0.5).fadeTo(300, 1);
 				}
 				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
+				
 				col_t++;
 				if (col_t == division_h) {
 					col_t = 0;
@@ -857,9 +860,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 15));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= (this.settings.height_skitter);
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 15));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= (this.settings.height_skitter());
 			
 			for (i = 0; i < total; i++) {
 				
@@ -867,7 +870,7 @@
 				var _btop = 0;
 				
 				var box_clone = this.getBoxClone();
-				box_clone.css({left: this.settings.width_skitter + 100, top:0, width:width_box, height:height_box});
+				box_clone.css({left: this.settings.width_skitter() + 100, top:0, width:width_box, height:height_box});
 				box_clone.find('img').css({left:-(width_box * i)});
 				
 				this.addBoxClone(box_clone);
@@ -875,7 +878,7 @@
 				var delay_time = 80 * (i);
 				var callback = (i == (total - 1)) ? function() { self.finishAnimation(); } : '';
 				//box_clone.delay(delay_time).animate({top:_btop, left:_bleft, opacity:'show'}, time_animate, easing, callback);
-				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				box_clone.show().delay(delay_time).animate({top:_btop, left:_bleft}, time_animate, easing);
 				box_clone.find('img').hide().delay(delay_time+100).animate({opacity:'show'}, time_animate+300, easing, callback);
 			}
@@ -898,20 +901,21 @@
 
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 
-			var division_w = Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h = Math.ceil(this.settings.height_skitter / (this.settings.width_skitter / 8));
+			var division_w = Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h = Math.ceil(this.settings.height_skitter() / (this.settings.width_skitter() / 8));
 			var total = division_w * division_h;
 
-			var width_box = Math.ceil(this.settings.width_skitter / division_w);
-			var height_box = Math.ceil(this.settings.height_skitter / division_h);
+			var width_box = Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box = Math.ceil(this.settings.height_skitter() / division_h);
 
 			var init_top = 0;
 			var init_left = 0;
 
 			var col_t = 0;
 			var col = 0;
-			var _ftop = this.settings.width_skitter / 16;
+			var _ftop = this.settings.width_skitter() / 16;
 
 			for (i = 0; i < total; i++) {
 				init_top = (i % 2 == 0) ? init_top : -init_top;
@@ -928,6 +932,8 @@
 				var box_clone = this.getBoxCloneImgOld(image_old);
 				box_clone.css({left:_vleft+'px', top:_vtop+'px', width:width_box, height:height_box});
 				box_clone.find('img').css({left:_vleft_image, top:_vtop_image});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 
 				this.addBoxClone(box_clone);
 				box_clone.show();
@@ -971,13 +977,14 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			
-			var division_w 	= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h 	= Math.ceil(this.settings.height_skitter / (this.settings.height_skitter / 3));
+			var division_w 	= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h 	= Math.ceil(this.settings.height_skitter() / (this.settings.height_skitter() / 3));
 			var total		= division_w * division_h;
 			
-			var width_box 	= Math.ceil(this.settings.width_skitter / division_w);
-			var height_box 	= Math.ceil(this.settings.height_skitter / division_h);
+			var width_box 	= Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box 	= Math.ceil(this.settings.height_skitter() / division_h);
 			
 			var init_top 	= 0;
 			var init_left 	= 0;
@@ -1001,6 +1008,8 @@
 				var box_clone = this.getBoxCloneImgOld(image_old);
 				box_clone.css({left:_vleft+'px', top:_vtop+'px', width:width_box, height:height_box});
 				box_clone.find('img').css({left:_vleft_image, top:_vtop_image});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				box_clone.show();
@@ -1034,13 +1043,14 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			
-			var division_w 	= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h 	= Math.ceil(this.settings.height_skitter / (this.settings.height_skitter / 3));
+			var division_w 	= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h 	= Math.ceil(this.settings.height_skitter() / (this.settings.height_skitter() / 3));
 			var total		= division_w * division_h;
 			
-			var width_box 	= Math.ceil(this.settings.width_skitter / division_w);
-			var height_box 	= Math.ceil(this.settings.height_skitter / division_h);
+			var width_box 	= Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box 	= Math.ceil(this.settings.height_skitter() / division_h);
 			
 			var init_top 	= 0;
 			var init_left 	= 0;
@@ -1079,6 +1089,8 @@
 				box_clone.css({left:_vleft+'px', top:_vtop+'px', width:width_box, height:height_box});
 				box_clone.find('img').css({left:_vleft_image, top:_vtop_image});
 				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
+				
 				this.addBoxClone(box_clone);
 				box_clone.show();
 				
@@ -1110,20 +1122,21 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			
-			var division_w 	= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h 	= Math.ceil(this.settings.height_skitter / (this.settings.height_skitter / 3));
+			var division_w 	= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h 	= Math.ceil(this.settings.height_skitter() / (this.settings.height_skitter() / 3));
 			var total		= division_w * division_h;
 			
-			var width_box 	= Math.ceil(this.settings.width_skitter / division_w);
-			var height_box 	= Math.ceil(this.settings.height_skitter / division_h);
+			var width_box 	= Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box 	= Math.ceil(this.settings.height_skitter() / division_h);
 			
 			var init_top 	= 0;
 			var init_left 	= 0;
 			
 			var col_t 		= 0;
 			var col 		= 0;
-			var _ftop		= Math.ceil(this.settings.width_skitter / 6);
+			var _ftop		= Math.ceil(this.settings.width_skitter() / 6);
 			
 			for (i = 0; i < total; i++) {
 				
@@ -1141,6 +1154,8 @@
 				var box_clone = this.getBoxCloneImgOld(image_old);
 				box_clone.css({left:_vleft, top:_vtop, width:width_box, height:height_box});
 				box_clone.find('img').css({left:_vleft_image, top:_vtop_image});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				box_clone.show();
@@ -1170,9 +1185,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 7));
-			var width_box 	= (this.settings.width_skitter);
-			var height_box 	= Math.ceil(this.settings.height_skitter / total);
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 7));
+			var width_box 	= (this.settings.width_skitter());
+			var height_box 	= Math.ceil(this.settings.height_skitter() / total);
 			
 			for (i = 0; i < total; i++) {
 				var _bleft = (i % 2 == 0 ? '' : '') + width_box;
@@ -1182,6 +1197,8 @@
 				
 				box_clone.css({left:_bleft+'px', top:_btop+'px', width:width_box, height:height_box});
 				box_clone.find('img').css({left:0, top:-_btop});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				
@@ -1203,9 +1220,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= (this.settings.height_skitter);
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= (this.settings.height_skitter());
 			
 			for (i = 0; i < total; i++) {
 				
@@ -1216,6 +1233,8 @@
 				
 				box_clone.css({left:_bleft, top:_btop - 50, width:width_box, height:height_box});
 				box_clone.find('img').css({left:-(width_box * i), top:0});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				
@@ -1247,9 +1266,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= this.settings.height_skitter;
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= this.settings.height_skitter();
 			
 			for (i = 0;i<total;i++) {
 				var _btop = 0;
@@ -1260,6 +1279,8 @@
 				
 				box_clone.css({left:vleft,top: _vtop, height:height_box, width: width_box});
 				box_clone.find('img').css({left:-(vleft)});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				
@@ -1280,8 +1301,8 @@
 			
 			this.setActualLevel();
 			
-			var width_box 	= this.settings.width_skitter;
-			var height_box 	= this.settings.height_skitter;
+			var width_box 	= this.settings.width_skitter();
+			var height_box 	= this.settings.height_skitter();
 			var total 		= 2;
 			
 			for (i = 0;i<total;i++) {
@@ -1290,6 +1311,9 @@
 			
 				var box_clone = this.getBoxClone();
 				box_clone.css({left:_vleft, top:_vtop, width:width_box, height:height_box});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
+				
 				this.addBoxClone(box_clone);
 
 				var callback = (i == (total - 1)) ? function() { self.finishAnimation(); } : '';
@@ -1307,8 +1331,8 @@
 			
 			this.setActualLevel();
 			
-			var width_box 	= this.settings.width_skitter;
-			var height_box 	= this.settings.height_skitter;
+			var width_box 	= this.settings.width_skitter();
+			var height_box 	= this.settings.height_skitter();
 			var total 		= 4;
 			
 			for (i = 0;i<total;i++) {
@@ -1329,6 +1353,9 @@
 			
 				var box_clone = this.getBoxClone();
 				box_clone.css({left:_vleft, top:_vtop, width:width_box, height:height_box});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
+				
 				this.addBoxClone(box_clone);
 				
 				var callback = (i == (total - 1)) ? function() { self.finishAnimation(); } : '';
@@ -1346,9 +1373,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 16));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= this.settings.height_skitter;
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 16));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= this.settings.height_skitter();
 			
 			for (i = 0; i < total; i++) {
 				
@@ -1357,8 +1384,10 @@
 				
 				var box_clone = this.getBoxClone();
 				
-				box_clone.css({left:_bleft, top:_btop - this.settings.height_skitter, width:width_box, height:height_box});
+				box_clone.css({left:_bleft, top:_btop - this.settings.height_skitter(), width:width_box, height:height_box});
 				box_clone.find('img').css({left:-(width_box * i), top:0});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				
@@ -1391,9 +1420,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 16));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= this.settings.height_skitter;
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 16));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= this.settings.height_skitter();
 			
 			for (i = 0; i < total; i++) {
 				
@@ -1404,6 +1433,8 @@
 				
 				box_clone.css({left:_bleft, top:_btop, width:width_box, height:height_box});
 				box_clone.find('img').css({left:-(width_box * i), top:0});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				
@@ -1458,9 +1489,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 16));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= this.settings.height_skitter;
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 16));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= this.settings.height_skitter();
 			
 			for (i = 0; i < total; i++) {
 				
@@ -1471,6 +1502,8 @@
 				
 				box_clone.css({left:_bleft, top:_btop, width:width_box, height:height_box});
 				box_clone.find('img').css({left:-(width_box * i), top:0});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				this.addBoxClone(box_clone);
 				
@@ -1508,7 +1541,11 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
-			this.box_skitter.find('.image_main').hide();
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
+			
+			var th = this.settings.height_skitter();
+			
+			//this.box_skitter.find('.image_main').hide();
 			
 			var total 		= options.total;
 			
@@ -1517,9 +1554,9 @@
 				switch (options.direction)
 				{
 					default : case 'top' : 
-						
-						var width_box 		= Math.ceil(this.settings.width_skitter / total);
-						var height_box 		= this.settings.height_skitter;
+					
+						var width_box 		= Math.ceil(this.settings.width_skitter() / total);
+						var height_box 		= this.settings.height_skitter();
 						
 						var _itopc 			= 0;
 						var _ileftc 		= (width_box * i);
@@ -1538,8 +1575,8 @@
 						
 					case 'bottom' : 
 					
-						var width_box 		= Math.ceil(this.settings.width_skitter / total);
-						var height_box 		= this.settings.height_skitter;
+						var width_box 		= Math.ceil(this.settings.width_skitter() / total);
+						var height_box 		= this.settings.height_skitter();
 						
 						var _itopc 			= 0;
 						var _ileftc 		= (width_box * i);
@@ -1558,8 +1595,8 @@
 						
 					case 'right' : 
 					
-						var width_box 		= this.settings.width_skitter;
-						var height_box 		= Math.ceil(this.settings.height_skitter / total);
+						var width_box 		= this.settings.width_skitter();
+						var height_box 		= Math.ceil(this.settings.height_skitter() / total);
 						
 						var _itopc 			= (height_box * i);
 						var _ileftc 		= 0;
@@ -1578,8 +1615,8 @@
 						
 					case 'left' : 
 					
-						var width_box 		= this.settings.width_skitter;
-						var height_box 		= Math.ceil(this.settings.height_skitter / total);
+						var width_box 		= this.settings.width_skitter();
+						var height_box 		= Math.ceil(this.settings.height_skitter() / total);
 						
 						var _itopc 			= (height_box * i);
 						var _ileftc 		= 0;
@@ -1607,6 +1644,8 @@
 				
 				var box_clone = this.getBoxCloneImgOld(image_old);
 				box_clone.find('img').css({left:_vleft_image, top:_vtop_image});
+				
+				box_clone.find('img').css({width:this.settings.width_skitter()});
 				
 				box_clone.css({top:_itopc, left:_ileftc, width:width_box, height:height_box});
 				
@@ -1639,12 +1678,12 @@
 			
 			this.setActualLevel();
 			
-			var division_w 	= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h 	= Math.ceil(this.settings.height_skitter / (this.settings.width_skitter / 8));
+			var division_w 	= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h 	= Math.ceil(this.settings.height_skitter() / (this.settings.width_skitter() / 8));
 			var total		= division_w * division_h;
 			
-			var width_box 	= Math.ceil(this.settings.width_skitter / division_w);
-			var height_box 	= Math.ceil(this.settings.height_skitter / division_h);
+			var width_box 	= Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box 	= Math.ceil(this.settings.height_skitter() / division_h);
 			
 			var init_top 	= 0;
 			var init_left 	= 0;
@@ -1728,16 +1767,16 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10)) * 2;
-			var width_box 	= Math.ceil(this.settings.width_skitter / total) * 2;
-			var height_box 	= (this.settings.height_skitter) / 2;
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10)) * 2;
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total) * 2;
+			var height_box 	= (this.settings.height_skitter()) / 2;
 			var col			= 0;
 			
 			for (i = 0; i < total; i++) {
 				mod = (i % 2) == 0 ? true : false;
 				
 				var _ileft = (width_box * (col));
-				var _itop = (mod) ? -self.settings.height_skitter : self.settings.height_skitter;
+				var _itop = (mod) ? -self.settings.height_skitter() : self.settings.height_skitter();
 				
 				var _fleft = (width_box * (col));
 				var _ftop = (mod) ? 0 : (height_box);
@@ -1775,9 +1814,9 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= (this.settings.height_skitter);
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= (this.settings.height_skitter());
 			
 			for (i = 0; i < total; i++) {
 				var _ileft = (width_box * (i));
@@ -1818,15 +1857,15 @@
 			
 			this.setActualLevel();
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
 			var size_box	= 100;
 			
-			var radius		= Math.sqrt(Math.pow((this.settings.width_skitter), 2) + Math.pow((this.settings.height_skitter), 2));
+			var radius		= Math.sqrt(Math.pow((this.settings.width_skitter()), 2) + Math.pow((this.settings.height_skitter()), 2));
 			var radius		= Math.ceil(radius);
 			
 			for (i = 0; i < total; i++) {
-				var _ileft = (self.settings.width_skitter / 2) - (size_box / 2);
-				var _itop = (self.settings.height_skitter / 2) - (size_box / 2);
+				var _ileft = (self.settings.width_skitter() / 2) - (size_box / 2);
+				var _itop = (self.settings.height_skitter() / 2) - (size_box / 2);
 				
 				var _fleft = _ileft; 
 				var _ftop = _itop; 
@@ -1887,16 +1926,17 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
 			
-			var radius		= Math.sqrt(Math.pow((this.settings.width_skitter), 2) + Math.pow((this.settings.height_skitter), 2));
+			var radius		= Math.sqrt(Math.pow((this.settings.width_skitter()), 2) + Math.pow((this.settings.height_skitter()), 2));
 			var radius		= Math.ceil(radius);
 			var size_box	= radius;
 			
 			for (i = 0; i < total; i++) {
-				var _ileft = (self.settings.width_skitter / 2) - (size_box / 2);
-				var _itop = (self.settings.height_skitter / 2) - (size_box / 2);
+				var _ileft = (self.settings.width_skitter() / 2) - (size_box / 2);
+				var _itop = (self.settings.height_skitter() / 2) - (size_box / 2);
 				
 				var _fleft = _ileft; 
 				var _ftop = _itop; 
@@ -1957,16 +1997,17 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			
-			var total 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
+			var total 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
 			
-			var radius		= Math.sqrt(Math.pow((this.settings.width_skitter), 2) + Math.pow((this.settings.height_skitter), 2));
+			var radius		= Math.sqrt(Math.pow((this.settings.width_skitter()), 2) + Math.pow((this.settings.height_skitter()), 2));
 			var radius		= Math.ceil(radius);
 			var size_box	= radius;
 			
 			for (i = 0; i < total; i++) {
-				var _ileft = (self.settings.width_skitter / 2) - (size_box / 2);
-				var _itop = (self.settings.height_skitter / 2) - (size_box / 2);
+				var _ileft = (self.settings.width_skitter() / 2) - (size_box / 2);
+				var _itop = (self.settings.height_skitter() / 2) - (size_box / 2);
 				
 				var _fleft = _ileft; 
 				var _ftop = _itop; 
@@ -2017,12 +2058,12 @@
 			
 			this.setActualLevel();
 			
-			var division_w 		= Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 8));
-			var division_h 		= Math.ceil(this.settings.height_skitter / (this.settings.height_skitter / 4));
+			var division_w 		= Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 8));
+			var division_h 		= Math.ceil(this.settings.height_skitter() / (this.settings.height_skitter() / 4));
 			var total			= division_w * division_h;
 			
-			var width_box 		= Math.ceil(this.settings.width_skitter / division_w);
-			var height_box 		= Math.ceil(this.settings.height_skitter / division_h);
+			var width_box 		= Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box 		= Math.ceil(this.settings.height_skitter() / division_h);
 			
 			var last 			= false;
 			
@@ -2070,10 +2111,11 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			
 			var total		= 12;
-			var width_box 	= Math.ceil(this.settings.width_skitter / total);
-			var height_box 	= this.settings.height_skitter;
+			var width_box 	= Math.ceil(this.settings.width_skitter() / total);
+			var height_box 	= this.settings.height_skitter();
 			var _ftop		= (options.direction == 'top') ? -height_box : height_box;
 			
 			for (i = 0; i < total; i++) {
@@ -2113,12 +2155,13 @@
 
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 
-			var division_w = Math.ceil(this.settings.width_skitter / (this.settings.width_skitter / 10));
+			var division_w = Math.ceil(this.settings.width_skitter() / (this.settings.width_skitter() / 10));
 			var total = division_w;
 
-			var width_box = Math.ceil(this.settings.width_skitter / division_w);
-			var height_box = this.settings.height_skitter;
+			var width_box = Math.ceil(this.settings.width_skitter() / division_w);
+			var height_box = this.settings.height_skitter();
 
 			for (i = 0; i < total; i++) {
 				var _vtop = 0;
@@ -2164,14 +2207,15 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
-			this.box_skitter.find('.image_main').hide();
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
+			//this.box_skitter.find('.image_main').hide();
 			
 			var total 		= options.total;
 			
 			for (i = 0; i < total; i++) {
 
-				var width_box 		= Math.ceil(this.settings.width_skitter / total);
-				var height_box 		= this.settings.height_skitter;
+				var width_box 		= Math.ceil(this.settings.width_skitter() / total);
+				var height_box 		= this.settings.height_skitter();
 				
 				var _itopc 			= 0;
 				var _ileftc 		= (width_box * i);
@@ -2242,11 +2286,12 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
-			this.box_skitter.find('.image_main').hide();
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
+			//this.box_skitter.find('.image_main').hide();
 			
 			var total 			= 2;
-			var width_box 		= this.settings.width_skitter;
-			var height_box 		= Math.ceil(this.settings.height_skitter / total);
+			var width_box 		= this.settings.width_skitter();
+			var height_box 		= Math.ceil(this.settings.height_skitter() / total);
 
 			// Old image
 			var box_clone1 = this.getBoxCloneImgOld(image_old), box_clone2 = this.getBoxCloneImgOld(image_old);
@@ -2307,11 +2352,12 @@
 			
 			this.setLinkAtual();
 			this.box_skitter.find('.image_main').attr({'src':this.settings.image_atual});
-			this.box_skitter.find('.image_main').hide();
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
+			//this.box_skitter.find('.image_main').hide();
 			
 			var total 			= 2;
-			var width_box 		= this.settings.width_skitter;
-			var height_box 		= Math.ceil(this.settings.height_skitter / total);
+			var width_box 		= this.settings.width_skitter();
+			var height_box 		= Math.ceil(this.settings.height_skitter() / total);
 
 			// Old image
 			var box_clone1 = this.getBoxCloneImgOld(image_old), box_clone2 = this.getBoxCloneImgOld(image_old);
@@ -2367,10 +2413,8 @@
 			this.showBoxText();
 			this.settings.is_animating = false;
 			this.box_skitter.find('.image_main').attr({'src': this.settings.image_atual});
+			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
 			this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
-			if(this.settings.link_atual!='#' && this.settings.target_atual!='') {
-				this.box_skitter.find('.image a').attr({'target': this.settings.target_atual});
-			}
 			
 			if (!this.settings.is_hover_box_skitter && !this.settings.is_paused && !this.settings.is_blur) {
 				this.timer = setTimeout(function() { self.completeMove(); }, this.settings.interval);
@@ -2431,11 +2475,14 @@
 		getBoxClone: function()
 		{
 			if (this.settings.link_atual != '#') {
-				var target = (this.settings.target_atual!='' && this.settings.link_atual!='') ? ' target="'+this.settings.target_atual+'"' : '';
-				var img_clone = $('<a href="'+this.settings.link_atual+'"'+target+'><img src="'+this.settings.image_atual+'" /></a>');
+				var img_clone = $('<a href="'+this.settings.link_atual+'" target="'+this.settings.target_atual+'"><img src="'+this.settings.image_atual+'" /></a>');
+				$(img_clone).find('img').width(this.settings.width_skitter());
+				$(img_clone).find('img').height('auto');
 			} 
 			else {
 				var img_clone = $('<img src="'+this.settings.image_atual+'" />');
+				$(img_clone).width(this.settings.width_skitter());
+				$(img_clone).height('auto');
 			}
 			
 			img_clone = this.resizeImage(img_clone);
@@ -2448,11 +2495,15 @@
 		getBoxCloneImgOld: function(image_old)
 		{
 			if (this.settings.link_atual != '#') {
-				var target = (this.settings.target_atual!='' && this.settings.link_atual!='') ? ' target="'+this.settings.target_atual+'"' : '';
-				var img_clone = $('<a href="'+this.settings.link_atual+'"'+target+'><img src="'+image_old+'" /></a>');
+				var target = (this.settings.target_atual!='') ? ' target="'+this.settings.target_atual+'"' : '';
+				var img_clone = $('<a href="'+this.settings.link_atual+target+'"><img src="'+image_old+'" /></a>');
+				$(img_clone).find('img').width(this.settings.width_skitter());
+				$(img_clone).find('img').height('auto');
 			} 
 			else {
 				var img_clone = $('<img src="'+image_old+'" />');
+				$(img_clone).width(this.settings.width_skitter());
+				$(img_clone).height('auto');
 			}
 			
 			img_clone = this.resizeImage(img_clone);
@@ -2465,7 +2516,9 @@
 		resizeImage: function(img_clone) 
 		{
 			if (this.settings.fullscreen) {
-				img_clone.find('img').height(this.settings.height_skitter);
+				img_clone.find('img').height(this.settings.height_skitter());
+			}else {
+				img_clone.find('img').width(this.settings.width_skitter());
 			}
 			return img_clone;
 		}, 
@@ -2489,8 +2542,8 @@
 				'easeInCirc', 		'easeOutCirc', 		'easeInOutCirc', 
 				'easeInElastic', 	'easeOutElastic', 	'easeInOutElastic', 
 				'easeInBack', 		'easeOutBack', 		'easeInOutBack', 
-				'easeInBounce', 	'easeOutBounce', 	'easeInOutBounce'
-				];
+				'easeInBounce', 	'easeOutBounce', 	'easeInOutBounce', 
+			];
 			
 			if (jQuery.inArray(easing, easing_accepts) > 0) {
 				return easing;
@@ -2532,7 +2585,7 @@
 		
 		// Stop time to get over box_skitter
 		stopOnMouseOver: function () 
-		{
+		{ return;
 			var self = this;
 			var opacity_elements = self.settings.opacity_elements;
 			var interval_in_elements = self.settings.interval_in_elements;
@@ -2541,7 +2594,9 @@
 			
 			self.box_skitter.hover(function() {
 				
-				if (self.settings.stop_over) self.settings.is_hover_box_skitter = true;
+				if (self.settings.stop_over) {
+					self.settings.is_hover_box_skitter = true;
+				}
 				
 				if (!self.settings.is_paused_time) {
 					self.pauseTime();
@@ -2662,9 +2717,6 @@
 					self.timer = setTimeout(function() { self.completeMove(); }, self.settings.interval - self.settings.elapsedTime);
 					self.box_skitter.find('.image_main').attr({'src': self.settings.image_atual});
 					self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
-					if(self.settings.link_atual!='#' && self.settings.target_atual!='') {
-						self.box_skitter.find('.image a').attr({'target': self.settings.target_atual});
-					}
 				}
 				
 				if (self.settings.focus && !self.settings.foucs_active && !self.settings.hideTools) {
@@ -2693,13 +2745,10 @@
 		// Set link atual
 		setLinkAtual: function() {
 			if (this.settings.link_atual != '#') {
-				this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
-				if(this.settings.link_atual!='#' && this.settings.target_atual!='') {
-					this.box_skitter.find('.image a').attr({'target': this.settings.target_atual});
-				}
+				this.box_skitter.find('.image a').attr({'href': this.settings.link_atual, 'target': this.settings.target_atual});
 			}
 			else {
-				this.box_skitter.find('.image a').removeAttr('href').removeAttr('target');
+				this.box_skitter.find('.image a').removeAttr('href');
 			}
 		},
 		
@@ -2720,7 +2769,7 @@
 			var focus_button = $('<a href="#" class="focus_button">focus</a>');
 			self.box_skitter.append(focus_button);
 			
-			var _left = (self.settings.width_skitter - focus_button.width()) / 2;
+			var _left = (self.settings.width_skitter() - focus_button.width()) / 2;
 			var _space = 0;
 			
 			if (self.settings.controls) _left -= 25;
@@ -2811,7 +2860,7 @@
 			var play_pause_button = $('<a href="#" class="play_pause_button">pause</a>');
 			self.box_skitter.append(play_pause_button);
 			
-			var _left = (self.settings.width_skitter - play_pause_button.width()) / 2;
+			var _left = (self.settings.width_skitter() - play_pause_button.width()) / 2;
 			
 			if (self.settings.focus) _left += 25;
 			
@@ -2861,9 +2910,6 @@
 							self.timer = setTimeout(function() { self.completeMove(); }, self.settings.interval - self.settings.elapsedTime);
 							self.box_skitter.find('.image_main').attr({'src': self.settings.image_atual});
 							self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
-							if(self.settings.link_atual!='#' && self.settings.target_atual!='') {
-								self.box_skitter.find('.image a').attr({'target': self.settings.target_atual});
-							}
 						}
 					}
 				}
@@ -2895,11 +2941,11 @@
 					self.settings.progressbar_css.width = parseInt(progressbar.css('width'));
 				}
 				else {
-					self.settings.progressbar_css = {width: self.settings.width_skitter, height:5};
+					self.settings.progressbar_css = {width: self.settings.width_skitter(), height:5};
 				}
 			}
 			if (self.objectSize(self.settings.progressbar_css) > 0 && self.settings.progressbar_css.width == undefined) {
-				self.settings.progressbar_css.width = self.settings.width_skitter;
+				self.settings.progressbar_css.width = self.settings.width_skitter();
 			}
 			
 			progressbar.css(self.settings.progressbar_css).hide();
@@ -3088,9 +3134,6 @@
 						self.timer = setTimeout(function() { self.completeMove(); }, self.settings.interval - self.settings.elapsedTime);
 						self.box_skitter.find('.image_main').attr({'src': self.settings.image_atual});
 						self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
-						if(self.settings.link_atual!='#' && self.settings.target_atual!='') {
-							self.box_skitter.find('.image a').attr({'target': self.settings.target_atual});
-						}
 					}
 				}
 			});

@@ -1,11 +1,11 @@
 /* =Skitter styles
 ----------------------------------------------- */
-.box_skitter {position:relative;width:800px;height:300px;background:#000;}
+.box_skitter {position:relative;width:100%;height:auto;background:#000;}
 .box_skitter img { max-width:none; } /* Tip for stildv */
 .box_skitter ul {display:none;}
-.box_skitter .container_skitter {overflow:hidden;position:relative;}
+.box_skitter .container_skitter {overflow:hidden;position:relative;width:100%;height:auto;}
 .box_skitter .image {overflow:hidden;}
-.box_skitter .image img {display:none;}
+.box_skitter .image img {display:none;width:100%;height:auto;}
 
 /* =Box clone
 -------------------------------------------------------------- */
@@ -14,8 +14,8 @@
 
 /* =Navigation
 -------------------------------------------------------------- */
-.box_skitter .prev_button {position:absolute;top:50%;left:35px;z-index:100;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../images/prev.png) no-repeat left top;}
-.box_skitter .next_button {position:absolute;top:50%;right:35px;z-index:100;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../images/next.png) no-repeat left top;}
+.box_skitter .prev_button {position:absolute;top:50%;left:35px;z-index:100;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../img/prev.png) no-repeat left top;}
+.box_skitter .next_button {position:absolute;top:50%;right:35px;z-index:100;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../img/next.png) no-repeat left top;}
 
 /* =Numbers
 -------------------------------------------------------------- */
@@ -41,7 +41,7 @@
 
 /* =Loading
 -------------------------------------------------------------- */
-.loading {position:absolute; top:50%; right:50%; z-index:10000; margin:-16px -16px;color:#fff;text-indent:-9999em;overflow:hidden;background:url(../images/ajax-loader.gif) no-repeat left top;width:32px;height:32px;}
+.loading {position:absolute; top:50%; right:50%; z-index:10000; margin:-16px -16px;color:#fff;text-indent:-9999em;overflow:hidden;background:url(../img/ajax-loader.gif) no-repeat left top;width:32px;height:32px;}
 
 /* =Label
 -------------------------------------------------------------- */
@@ -62,11 +62,11 @@
 -------------------------------------------------------------- */
 #overlay_skitter { position:absolute; top:0; left:0; width:100%; z-index:9998; opacity:1; background:#000; }
 
-.box_skitter .focus_button {position:absolute;top:50%;z-index:100;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../images/focus-button.png) no-repeat left top;opacity:0;}
-.box_skitter .play_pause_button {position:absolute;top:50%;z-index:151;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../images/pause-button.png) no-repeat left top;opacity:0;}
-.box_skitter .play_pause_button.play_button {background:url(../images/play-button.png) no-repeat left top;}
+.box_skitter .focus_button {position:absolute;top:50%;z-index:100;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../img/focus-button.png) no-repeat left top;opacity:0;}
+.box_skitter .play_pause_button {position:absolute;top:50%;z-index:151;width:42px;height:42px;overflow:hidden;text-indent:-9999em;margin-top:-25px;background:url(../img/pause-button.png) no-repeat left top;opacity:0;}
+.box_skitter .play_pause_button.play_button {background:url(../img/play-button.png) no-repeat left top;}
 
 /* =Example for dimenions
 -------------------------------------------------------------- */
-.box_skitter_large {width:800px;height:300px;}
+.box_skitter_large {width:954px;height:225px;border: solid 1px #33CCFF}
 .box_skitter_small {width:200px;height:100px;}
