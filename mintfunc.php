@@ -3,7 +3,7 @@
 Plugin Name: Mint Sliders
 Plugin URI: http://taraprasad.com/wordpress/mintsliders/
 Description: A Image Slider Plugin for Wordpress.
-Version: 1.2.0
+Version: 1.3.0
 Author: Taraprasad Swain
 Author URI: http://www.taraprasad.com
 

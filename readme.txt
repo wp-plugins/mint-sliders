@@ -4,7 +4,7 @@ Donate link: http://taraprasad.com/wordpress/mintsliders/
 Tags: image slider, wordpress slider, slider, skitter slider, images slider, slider transaction effects
 Requires at least: 3.0.1
 Tested up to: 3.4.1
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -56,6 +56,9 @@ Still got questions? If you need technical help, email me at swain.tara@gmail.co
 4. A view of backend individual image transaction effects
 
 == Changelog ==
+
+= V1.3.0 - 04.01.2013 =
+* jquery.animate-colors bug fixed
 
 = V1.2.0 - 15.08.2012 =
 * Image link target option added
