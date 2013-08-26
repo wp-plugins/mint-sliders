@@ -57,7 +57,7 @@ Still got questions? If you need technical help, email me at swain.tara@gmail.co
 
 == Changelog ==
 
-= V1.5.0 - 04.01.2013 =
+= V1.5.0 - 26.08.2013 =
 * Bug Fixed
 
 = V1.4.0 - 04.01.2013 =
