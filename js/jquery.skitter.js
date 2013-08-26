@@ -80,12 +80,12 @@
 		mouseOutButton: 		function() { $(this).stop().animate({opacity:1}, 200); }, 
 		
 		auto_play: 				true, 
-		structure: 	 			  '<a href="#" class="prev_button">prev</a>'
-								+ '<a href="#" class="next_button">next</a>'
+		structure: 	 			  '<a href="javascript: void(0);" class="prev_button">prev</a>'
+								+ '<a href="javascript: void(0);" class="next_button">next</a>'
 								+ '<span class="info_slide"></span>'
 								+ '<div class="container_skitter">'
 									+ '<div class="image">'
-										+ '<a href=""><img class="image_main" /></a>'
+										+ '<a href="javascript: void(0);"><img class="image_main" /></a>'
 										+ '<div class="label_skitter"></div>'
 									+ '</div>'
 								+ '</div>'
@@ -565,7 +565,11 @@
 				this.clearTimer(true);
 				this.settings.image_i = Math.floor(imageNumber);
 				
-				this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
+				if(this.settings.link_atual!='#') {
+					this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
+				}else {
+					this.box_skitter.find('.image a').attr({'href': 'javascript: void(0);'});
+				}
 				this.box_skitter.find('.image_main').attr({'src': this.settings.image_atual});
 				this.box_skitter.find('.box_clone').remove();
 				
@@ -593,7 +597,7 @@
 				'showBarsRandom', 
 				'tube',
 				'fade',
-				'fadeFour',
+				//'fadeFour',
 				'paralell',
 				'blind',
 				'blindHeight',
@@ -605,9 +609,9 @@
 				'cubeSpread',
 				'glassCube',
 				'glassBlock',
-				'circles',
-				'circlesInside',
-				'circlesRotate',
+				//'circles',
+				//'circlesInside',
+				//'circlesRotate',
 				'cubeShow',
 				'upBars', 
 				'downBars', 
@@ -2013,14 +2017,14 @@
 				var _ftop = _itop; 
 				var box_clone = null;
 
-				if ($.browser.mozilla) {
-					box_clone = this.getBoxCloneImgOld(image_old);
-					box_clone.css({left: _ileft, top:_itop, width:size_box, height:size_box}).css3({
-						'border-radius': radius+'px'
-					});
-					box_clone.find('img').css({left: -_ileft, top: -_itop});
-				}
-				else {
+				//if ($.browser.mozilla) {
+				//	box_clone = this.getBoxCloneImgOld(image_old);
+				//	box_clone.css({left: _ileft, top:_itop, width:size_box, height:size_box}).css3({
+				//		'border-radius': radius+'px'
+				//	});
+				//	box_clone.find('img').css({left: -_ileft, top: -_itop});
+			//	}
+			//	else {
 					box_clone = this.getBoxCloneBackground({
 						image: 		image_old,
 						left: 		_ileft, 
@@ -2034,7 +2038,7 @@
 					}).css3({
 						'border-radius': radius+'px'
 					});
-				}
+				//}
 				
 				size_box -= 100;
 				
@@ -2414,7 +2418,12 @@
 			this.settings.is_animating = false;
 			this.box_skitter.find('.image_main').attr({'src': this.settings.image_atual});
 			this.box_skitter.find('.image_main').width(this.settings.width_skitter());
-			this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
+			
+			if(this.settings.link_atual!='#') {
+				this.box_skitter.find('.image a').attr({'href': this.settings.link_atual});
+			}else {
+				this.box_skitter.find('.image a').attr({'href': 'javascript: void(0);'});
+			}
 			
 			if (!this.settings.is_hover_box_skitter && !this.settings.is_paused && !this.settings.is_blur) {
 				this.timer = setTimeout(function() { self.completeMove(); }, this.settings.interval);
@@ -2716,7 +2725,11 @@
 				if (!self.settings.is_animating && self.settings.images_links.length > 1) {
 					self.timer = setTimeout(function() { self.completeMove(); }, self.settings.interval - self.settings.elapsedTime);
 					self.box_skitter.find('.image_main').attr({'src': self.settings.image_atual});
-					self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
+					if(self.settings.link_atual!='#') {
+						self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
+					}else {
+						self.box_skitter.find('.image a').attr({'href': 'javascript: void(0);'});
+					}
 				}
 				
 				if (self.settings.focus && !self.settings.foucs_active && !self.settings.hideTools) {
@@ -2766,7 +2779,7 @@
 		focusSkitter: function() {
 			var self = this;
 			
-			var focus_button = $('<a href="#" class="focus_button">focus</a>');
+			var focus_button = $('<a href="javascript: void(0);" class="focus_button">focus</a>');
 			self.box_skitter.append(focus_button);
 			
 			var _left = (self.settings.width_skitter() - focus_button.width()) / 2;
@@ -2857,7 +2870,7 @@
 		setControls: function() {
 			var self = this;
 			
-			var play_pause_button = $('<a href="#" class="play_pause_button">pause</a>');
+			var play_pause_button = $('<a href="javascript: void(0);" class="play_pause_button">pause</a>');
 			self.box_skitter.append(play_pause_button);
 			
 			var _left = (self.settings.width_skitter() - play_pause_button.width()) / 2;
@@ -2909,7 +2922,11 @@
 						if (!self.settings.is_animating && self.settings.images_links.length > 1) {
 							self.timer = setTimeout(function() { self.completeMove(); }, self.settings.interval - self.settings.elapsedTime);
 							self.box_skitter.find('.image_main').attr({'src': self.settings.image_atual});
-							self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
+							if(self.settings.link_atual!='#') {
+								self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
+							}else {
+								self.box_skitter.find('.image a').attr({'href': 'javascript: void(0);'});
+							}
 						}
 					}
 				}
@@ -2961,7 +2978,7 @@
 				.hide()
 				.dequeue()
 				.width(self.settings.progressbar_css.width)
-				.animate({width:'show'}, self.settings.interval, 'linear');
+				.animate({width:'show'}, Number(self.settings.interval), 'linear');
 		},
 		
 		/**
@@ -3133,7 +3150,11 @@
 						self.clearTimer(true); // Fix bug IE: double next
 						self.timer = setTimeout(function() { self.completeMove(); }, self.settings.interval - self.settings.elapsedTime);
 						self.box_skitter.find('.image_main').attr({'src': self.settings.image_atual});
-						self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
+						if(self.settings.link_atual!='#') {
+							self.box_skitter.find('.image a').attr({'href': self.settings.link_atual});
+						}else {
+							self.box_skitter.find('.image a').attr({'href': 'javascript: void(0);'});
+						}
 					}
 				}
 			});

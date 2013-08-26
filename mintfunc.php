@@ -3,7 +3,7 @@
 Plugin Name: Mint Sliders
 Plugin URI: http://taraprasad.com/wordpress/mintsliders/
 Description: A Image Slider Plugin for Wordpress.
-Version: 1.4.0
+Version: 1.5.0
 Author: Taraprasad Swain
 Author URI: http://www.taraprasad.com
 
@@ -69,15 +69,15 @@ function check_nggal() {
 }
 
 function mint_scripts_method() {
-	wp_enqueue_script('jquery',plugins_url('/js/jquery-1.6.3.min.js', __FILE__));
-	wp_enqueue_script('highlight',plugins_url('/js/highlight.js', __FILE__));
+	//wp_enqueue_script('jquery',plugins_url('/js/jquery-1.6.3.min.js', __FILE__));
+	//wp_enqueue_script('highlight',plugins_url('/js/highlight.js', __FILE__));
 	wp_enqueue_script('animate-colors',plugins_url('/js/jquery.animate-colors-min.js', __FILE__));
 	wp_enqueue_script('easing',plugins_url('/js/jquery.easing.1.3.js', __FILE__));
 	wp_enqueue_script('skitter',plugins_url('/js/jquery.skitter.js', __FILE__));
 	
 	//wp_enqueue_style('styles', plugins_url('/css/styles.css', __FILE__));
-	wp_enqueue_style('highlight', plugins_url('/css/highlight.css', __FILE__));
-	wp_enqueue_style('highlight-black', plugins_url('/css/highlight.black.css', __FILE__));
+	//wp_enqueue_style('highlight', plugins_url('/css/highlight.css', __FILE__));
+	//wp_enqueue_style('highlight-black', plugins_url('/css/highlight.black.css', __FILE__));
 	wp_enqueue_style('skitter-styles', plugins_url('/css/skitter.styles.css', __FILE__));
 }
 

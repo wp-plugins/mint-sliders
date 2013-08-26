@@ -49,11 +49,13 @@ jQuery(document).ready(function() {
 	
 	echo ($mis_easing!='' and $mis_easing!='none') ? "options['easing_default'] = '$mis_easing';" : "";
 	echo ($mis_align!='' and $mis_align!='none') ? "options['numbers_align'] = '$mis_align';" : "";
+	
 	echo ($mis_preview=='1') ? "options['preview'] = true;" : "options['preview'] = false;";
 	echo ($mis_progressbar=='1') ? "options['progressbar'] = true;" : "options['progressbar'] = false;";
 	echo ($mis_label=='1') ? "options['label'] = true;" : "options['label'] = false;";
 	echo ($mis_interval!='') ? "options['interval'] = '$mis_interval';" : "";
-	echo ($mis_velocity=='1') ? "options['velocity'] = '$mis_velocity';" : "";
+	
+	echo "options['velocity'] = '$mis_velocity';";
 	
 	echo ($mis_lrnav=='1') ? "options['navigation'] = true;" : "options['navigation'] = false;";
 	
@@ -66,7 +68,7 @@ jQuery(document).ready(function() {
 			echo "options['thumbs'] = true;";
 		}
 	}else {
-		echo "options['navigation'] = false;";
+	//	echo "options['navigation'] = false;";
 		echo "options['hideTools'] = false;";
 	}
 	?>
